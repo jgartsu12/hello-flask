@@ -28,7 +28,7 @@ class GuideSchema(ma.Schema):
 guide_schema = GuideSchema()
 guides_schema = GuideSchema(many=True)
 
-# Endpt to create a new guide
+# Endpoint to create a new guide
 @app.route('/guide', methods=["POST"])
 def add_guide():
     title = request.json['title']
@@ -37,11 +37,13 @@ def add_guide():
     new_guide = Guide(title, content)
 
     db.session.add(new_guide)
-    db.session.commit() #from sql alchmy opening new conenction to db to save data inside of it
+    db.session.commit()
 
-    guide = Guide.query.get(new_guide.id) # query to pass in id to be stored inside gudie var
+    guide = Guide.query.get(new_guide.id)
 
     return guide_schema.jsonify(guide)
-    
+
+
 if __name__ == '__main__':
     app.run(debug=True)
+
