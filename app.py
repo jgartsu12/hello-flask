@@ -50,7 +50,7 @@ def add_guide():
 def get_guides():
     all_guides = Guide.query.all()
     result = guides_schema.dump(all_guides)
-    return jsonify(result.data)
+    return jsonify(result)
 
 
 # Endpoint for querying a single guide
@@ -67,7 +67,7 @@ def guide_update(id):
     title = request.json['title']
     content = request.json['content']
 
-    guide.title = title
+    guide.title = title    
     guide.content = content
 
     db.session.commit()
