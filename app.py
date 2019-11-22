@@ -1,4 +1,3 @@
-
 from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
@@ -67,13 +66,23 @@ def guide_update(id):
     title = request.json['title']
     content = request.json['content']
 
-    guide.title = title    
+    guide.title = title
     guide.content = content
 
     db.session.commit()
     return guide_schema.jsonify(guide)
 
 
+# Endpoint for deleting a record
+@app.route("/guide/<id>", methods=["DELETE"])
+def guide_delete(id):
+    guide = Guide.query.get(id)
+    db.session.delete(guide)
+    db.session.commit()
+
+    return "Guide was successfully deleted"
+
 
 if __name__ == '__main__':
     app.run(debug=True)
+
