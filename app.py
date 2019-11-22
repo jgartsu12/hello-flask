@@ -29,21 +29,20 @@ guide_schema = GuideSchema()
 guides_schema = GuideSchema(many=True)
 
 # Endpoint to create a new guide
-@app.route('/guide', methods=["POST"])
+@app.route('/guide', methods=["POST"]) # create anything in db use post http verb
 def add_guide():
-    title = request.json['title']
+    title = request.json['title']   # parse dicitionary in python similar
     content = request.json['content']
 
     new_guide = Guide(title, content)
 
     db.session.add(new_guide)
-    db.session.commit()
-
-    guide = Guide.query.get(new_guide.id)
+    db.session.commit() #sql alchemy method - open new connection to db to save data inside of it
+   
+    guide = Guide.query.get(new_guide.id)   #sql alch
 
     return guide_schema.jsonify(guide)
 
 
 if __name__ == '__main__':
     app.run(debug=True)
-
